@@ -6,6 +6,7 @@ import BooksScreen from './BooksScreen';
 import CategoryScreen from './CategoryScreen';
 import SearchScreen from './SearchScreen';
 import BookDetailsScreen from './BookDetailsScreen';
+import AddBookScreen from './AddBookScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,6 +23,9 @@ function NavBottom() {
                         iconName = focused ? 'ios-book' : 'ios-book-outline';
                     } else if (route.name === 'Recherche') {
                         iconName = focused ? 'ios-search' : 'ios-search-outline';
+                    }
+                    else if (route.name === 'AddBook') {
+                        iconName = focused ? 'ios-add-circle' : 'ios-add-circle-outline';
                     }
 
                     return <Ionicons name={iconName} size={size} color={color} />;
@@ -45,6 +49,8 @@ function NavBottom() {
             <Tab.Screen name="BookDetails" component={BookDetailsScreen} options={{
                 tabBarButton: () => null
             }} />
+            <Tab.Screen name="AddBook" component={AddBookScreen}/>
+
         </Tab.Navigator>
     );
 }

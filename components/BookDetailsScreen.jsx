@@ -19,13 +19,14 @@ const BookDetails = ({ route }) => {
                     <View style={styles.tagsContainer}>
                         {bookCategories.map((cat, index) => (
                             <TouchableOpacity key={index} onPress={() => navigation.navigate('Category', { categoryId: cat.id })}>
-                                <View style={styles.tag}>
+                                <View  style={{ ...styles.tag, backgroundColor: cat.couleur }}>
                                     <Text style={styles.tagText}>{cat.genre}</Text>
                                 </View>
                             </TouchableOpacity>
                         ))}
                     </View>
-                    <Text style={styles.author}>{selectedBook.auteur}</Text>
+                    { selectedBook.enCours ? <Text style={styles.tag}>En cours de lecture</Text> : null }
+                    <Text style={styles.tagText}>Tomes : {selectedBook.tomes}</Text>
                     <Text style={styles.description}>{selectedBook.description}</Text>
                 </>
             ) : (
@@ -64,10 +65,7 @@ const styles = StyleSheet.create({
     },
     tagText: {
         color: '#333333',
-    },
-    author: {
-        fontSize: 20,
-        color: 'gray',
+        textTransform: 'capitalize',
     },
     description: {
         fontSize: 16,

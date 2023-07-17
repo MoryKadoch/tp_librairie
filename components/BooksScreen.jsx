@@ -9,7 +9,7 @@ const BooksScreen = ({ route, navigation }) => {
     const selectedCategory = catId ? CATEGORIES.find(cat => cat.id === catId) : { genre: "Tous les livres" };
 
     const displayedBooks = catId ? LIVRES.filter(book => book.categorieId.indexOf(catId) >= 0) : LIVRES;
- 
+
     const renderBookItem = (itemData) => {
         return (
             <View style={styles.bookItem}>
