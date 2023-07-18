@@ -45,8 +45,8 @@ const BookDetails = ({ route }) => {
                             </TouchableOpacity>
                         ))}
                     </View>
-                    { selectedBook.enCours ? <Text style={styles.tag}>En cours de lecture</Text> : null }
-                    <Text style={styles.tagText}>Tomes : {selectedBook.tomes}</Text>
+                    { selectedBook.enCours ? <Text style={styles.readingTag}>En cours de lecture</Text> : null }
+                    <Text style={styles.tomes}>Tomes : {selectedBook.tomes}</Text>
                     <Text style={styles.description}>{selectedBook.description}</Text>
                 </>
             ) : (
@@ -58,18 +58,21 @@ const BookDetails = ({ route }) => {
 
 const styles = StyleSheet.create({
     screen: {
-        justifyContent: 'center',
         alignItems: 'center',
         padding: 15,
+        backgroundColor: '#f8f8f8',
     },
     image: {
         width: 200,
         height: 300,
+        borderRadius: 10,
         marginBottom: 20,
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
+        textTransform: 'capitalize',
+        color: '#333333',
     },
     tagsContainer: {
         flexDirection: 'row',
@@ -78,18 +81,29 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     tag: {
-        backgroundColor: '#DDDDDD',
         padding: 5,
         borderRadius: 5,
         margin: 2,
     },
     tagText: {
-        color: '#333333',
+        color: '#ffffff',
         textTransform: 'capitalize',
+    },
+    readingTag: {
+        color: '#b9121b',
+        fontSize: 16,
+        fontStyle: 'italic',
+        marginBottom: 10,
+    },
+    tomes: {
+        fontSize: 16,
+        marginBottom: 10,
     },
     description: {
         fontSize: 16,
         marginTop: 20,
+        textAlign: 'justify',
+        color: '#333333',
     },
 });
 

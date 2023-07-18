@@ -6,7 +6,6 @@ import uuid from 'uuid';
 import { getCategories } from '../models/data';
 import { useFocusEffect } from '@react-navigation/native';
 
-
 const AddBookScreen = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -70,11 +69,11 @@ const AddBookScreen = () => {
 
     return (
         <View style={styles.container}>
-            <Button title="Supprimer tous les livres ajoutés" onPress={clearAllBooks} color="red" />
+            <Button title="Supprimer tous les livres ajoutés" onPress={clearAllBooks} color="#B9121B" />
             <ScrollView style={styles.scrollContainer}>
                 <Text style={styles.title}>Ajouter un livre</Text>
                 <TextInput style={styles.input} placeholder="Titre" value={title} onChangeText={setTitle} />
-                <TextInput style={styles.input} placeholder="Description" value={description} onChangeText={setDescription} />
+                <TextInput style={styles.input} placeholder="Description" value={description} onChangeText={setDescription} multiline={true} numberOfLines={4} />
                 <TextInput style={styles.input} placeholder="Tomes" value={tomes} onChangeText={setTomes} keyboardType="numeric" />
                 <TextInput style={styles.input} placeholder="URL de l'image" value={imageUrl} onChangeText={setImageUrl} />
                 {categories.map(category => (
@@ -84,6 +83,7 @@ const AddBookScreen = () => {
                             onPress={() => {
                                 toggleCategory(category.id);
                             }}
+                            color={selectedCategories.includes(category.id) ? '#81b0ff' : 'gray'}
                         />
                         <Text style={styles.label}>{category.genre}</Text>
                     </View>
@@ -97,7 +97,9 @@ const AddBookScreen = () => {
                     value={enCours}
                 />
             </ScrollView>
-            <Button title="Ajouter le livre" onPress={submitForm} />
+            <View style={styles.buttonContainer}>
+                <Button title="Ajouter le livre" onPress={submitForm} color="#81b0ff" />
+            </View>
         </View>
     );
 };
@@ -106,6 +108,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
+        backgroundColor: '#f8f8f8',
     },
     scrollContainer: {
         marginBottom: 50,
@@ -114,21 +117,28 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
+        color: '#333333',
     },
     input: {
         height: 40,
-        borderColor: 'gray',
+        borderColor: '#d3d3d3',
         borderWidth: 1,
         marginBottom: 20,
         borderRadius: 10,
         padding: 10,
+        backgroundColor: '#ffffff',
     },
     checkboxContainer: {
         flexDirection: "row",
         marginBottom: 20,
+        alignItems: 'center',
     },
     label: {
-        margin: 8,
+        fontSize: 16,
+        color: '#333333',
+    },
+    buttonContainer: {
+        paddingHorizontal: 20,
     },
 });
 

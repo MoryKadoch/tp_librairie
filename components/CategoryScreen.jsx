@@ -69,24 +69,28 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 15,
+        backgroundColor: '#f8f8f8',
     },
     bookItem: {
         width: '100%',
-        backgroundColor: '#f5f5f5',
+        backgroundColor: '#fff',
         borderRadius: 10,
         padding: 20,
         marginBottom: 15,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        elevation: 3,
     },
     image: {
         width: 70,
         height: 70,
         marginRight: 20,
+        borderRadius: 10,
     },
     title: {
         fontSize: 18,
         textTransform: 'capitalize',
+        color: '#000',
     },
 });
 

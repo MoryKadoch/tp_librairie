@@ -38,11 +38,13 @@ const AddCategoryScreen = () => {
 
     return (
         <View style={styles.container}>
-            <Button title="Supprimer toutes les catégories ajoutées" onPress={clearAllCategories} color="red" />
+            <Button title="Supprimer toutes les catégories ajoutées" onPress={clearAllCategories} color="#B9121B" />
             <Text style={styles.title}>Ajouter une catégorie</Text>
             <TextInput style={styles.input} placeholder="Genre" value={genre} onChangeText={setGenre} />
             <TextInput style={styles.input} placeholder="Couleur (format hexadécimal)" value={color} onChangeText={setColor} />
-            <Button title="Ajouter la catégorie" onPress={submitForm} />
+            <View style={styles.buttonContainer}>
+                <Button title="Ajouter la catégorie" onPress={submitForm} color="#81b0ff" />
+            </View>
         </View>
     );
 };
@@ -51,19 +53,25 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
+        backgroundColor: '#f8f8f8',
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
+        color: '#333333',
     },
     input: {
         height: 40,
-        borderColor: 'gray',
+        borderColor: '#d3d3d3',
         borderWidth: 1,
         marginBottom: 20,
         borderRadius: 10,
         padding: 10,
+        backgroundColor: '#ffffff',
+    },
+    buttonContainer: {
+        paddingHorizontal: 20,
     },
 });
 
