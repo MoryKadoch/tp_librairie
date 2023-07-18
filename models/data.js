@@ -1,14 +1,15 @@
 import Categorie from './categorie';
 import Livre from './livre';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const CATEGORIES = [
+export const STATIC_CATEGORIES = [
   new Categorie('c1', 'historique', '#f5428d'),
   new Categorie('c2', 'policier', '#f54242'),
   new Categorie('c3', 'SF', '#f5a442'),
   new Categorie('c4', 'romance', '#f5d142'),
 ];
 
-export const LIVRES = [
+export const STATIC_LIVRES = [
   new Livre(
     'm1',
     ['c2'],
@@ -53,5 +54,25 @@ export const LIVRES = [
     19,
     "https://static.wikia.nocookie.net/bestlecture/images/6/63/La_Rose_%C3%A9carlate%2C_tome_1_Je_savais_que_je_te_rencontrerais_de_Patricia_Lyfoung.jpg/revision/latest?cb=20150112131040&path-prefix=fr",
     true
-),
+  ),
 ];
+
+export async function getLivres() {
+  const storedData = await AsyncStorage.getItem("books");
+  let booksFromStorage = [];
+  if (storedData !== null) {
+    booksFromStorage = JSON.parse(storedData);
+  }
+
+  return [...STATIC_LIVRES, ...booksFromStorage];
+}
+
+export async function getCategories() {
+  const storedData = await AsyncStorage.getItem("categories");
+  let categoriesFromStorage = [];
+  if (storedData !== null) {
+    categoriesFromStorage = JSON.parse(storedData);
+  }
+
+  return [...STATIC_CATEGORIES, ...categoriesFromStorage];
+}

@@ -1,14 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { LIVRES, CATEGORIES } from '../models/data';
+import { getLivres, getCategories } from '../models/data';
 
 const BookDetails = ({ route }) => {
     const navigation = useNavigation();
     const bookId = route.params?.bookId;
-    const selectedBook = LIVRES.find(book => book.id === bookId);
+    const [selectedBook, setSelectedBook] = useState(null);
+    const [bookCategories, setBookCategories] = useState([]);
 
-    const bookCategories = selectedBook?.categorieId.map(catId => CATEGORIES.find(cat => cat.id === catId));
+    navigation.setOptions({
+        title: selectedBook?.titre,
+    });
+
+    useEffect(() => {
+        const fetchBooksAndCategories = async () => {
+            const books = await getLivres();
+            const categories = await getCategories();
+
+            const selectedBookFromStorage = books.find(book => book.id === bookId);
+            setSelectedBook(selectedBookFromStorage);
+
+            if (selectedBookFromStorage) {
+                const categoriesFromStorage = selectedBookFromStorage?.categorieId.map(catId => categories.find(cat => cat.id === catId));
+                setBookCategories(categoriesFromStorage);
+            }
+        };
+
+        fetchBooksAndCategories();
+    }, [bookId]);
 
     return (
         <ScrollView contentContainerStyle={styles.screen}>

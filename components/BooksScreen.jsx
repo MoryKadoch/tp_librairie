@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FlatList, StyleSheet, Text, View, Image } from 'react-native';
-import { CATEGORIES, LIVRES } from '../models/data';
+import { CATEGORIES, getLivres } from '../models/data';
+import { useFocusEffect } from '@react-navigation/native';
 
 const BooksScreen = ({ route, navigation }) => {
 
     const catId = route.params?.categoryId;
 
-    const selectedCategory = catId ? CATEGORIES.find(cat => cat.id === catId) : { genre: "Tous les livres" };
+    const [displayedBooks, setDisplayedBooks] = useState([]);
 
-    const displayedBooks = catId ? LIVRES.filter(book => book.categorieId.indexOf(catId) >= 0) : LIVRES;
+    useFocusEffect(
+        React.useCallback(() => {
+        getLivres().then(books => {
+            setDisplayedBooks(catId ? books.filter(book => book.categorieId.indexOf(catId) >= 0) : books);
+        });
+    }, [catId]));
+
+    const selectedCategory = catId ? CATEGORIES.find(cat => cat.id === catId) : { genre: "Tous les livres" };
 
     const renderBookItem = (itemData) => {
         return (

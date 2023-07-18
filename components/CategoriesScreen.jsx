@@ -1,8 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
-import { CATEGORIES } from '../models/data';
+import { getCategories } from '../models/data';
+import { useFocusEffect } from '@react-navigation/native';
 
 const CategoriesScreen = ({ navigation }) => {
+    const [categories, setCategories] = useState([]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            const loadCategories = async () => {
+                const loadedCategories = await getCategories();
+                setCategories(loadedCategories);
+            };
+            
+            loadCategories();
+        }, [])
+    );
 
     const renderGridItem = (itemData) => {
         return (
@@ -21,7 +34,7 @@ const CategoriesScreen = ({ navigation }) => {
 
     return (
         <FlatList
-            data={CATEGORIES}
+            data={categories}
             renderItem={renderGridItem}
             numColumns={2}
         />

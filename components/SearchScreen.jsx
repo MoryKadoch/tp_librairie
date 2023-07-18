@@ -1,18 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View, Image, Button, TextInput } from 'react-native';
-import { LIVRES } from '../models/data';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SearchScreen = ({ navigation }) => {
+    const [books, setBooks] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [searchResult, setSearchResult] = useState([]);
     const [noResult, setNoResult] = useState(false);
 
+    useEffect(() => {
+        const fetchBooks = async () => {
+            const storedData = await AsyncStorage.getItem('books');
+            if (storedData !== null) {
+                setBooks(JSON.parse(storedData));
+            }
+        };
+
+        fetchBooks();
+    }, []);
+
     const searchHandler = () => {
         if (searchText.length > 0) {
-            const result = LIVRES.filter(book => book.titre.toLowerCase().includes(searchText.toLowerCase()));
+            const result = books.filter(book => book.titre.toLowerCase().includes(searchText.toLowerCase()));
             setSearchResult(result);
             if (result.length === 0) {
                 setNoResult(true);
+            } else {
+                setNoResult(false);
             }
         } else {
             setSearchResult([]);

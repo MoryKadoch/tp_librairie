@@ -1,15 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View, Image } from 'react-native';
-import { CATEGORIES, LIVRES } from '../models/data';
+import { getCategories, getLivres } from '../models/data';
+import { useFocusEffect } from '@react-navigation/native';
 
 const CategoryScreen = ({ route, navigation }) => {
+    const [categories, setCategories] = useState([]);
+    const [books, setBooks] = useState([]);
 
     const catId = route.params?.categoryId;
 
-    const selectedCategory = CATEGORIES.find(cat => cat.id === catId);
+    let selectedCategory;
+    let displayedBooks;
 
-    const displayedBooks = LIVRES.filter(book => book.categorieId.indexOf(catId) >= 0);
- 
+    useFocusEffect(
+        React.useCallback(() => {
+            const loadCategoriesAndBooks = async () => {
+                try {
+                    const loadedCategories = await getCategories();
+                    const loadedBooks = await getLivres();
+                    setCategories(loadedCategories);
+                    setBooks(loadedBooks);
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+            loadCategoriesAndBooks();
+        }, []));
+
+    if (categories.length > 0 && books.length > 0) {
+        selectedCategory = categories.find(cat => cat.id === catId);
+        displayedBooks = books.filter(book => book.categorieId.indexOf(catId) >= 0);
+    }
+
+    navigation.setOptions({
+        title: selectedCategory ? selectedCategory.genre.toUpperCase() : 'Tous les livres',
+    });
+
     const renderBookItem = (itemData) => {
         return (
             <View style={styles.bookItem}>
@@ -28,7 +54,6 @@ const CategoryScreen = ({ route, navigation }) => {
 
     return (
         <View style={styles.screen}>
-            <Text style={styles.title}>{selectedCategory.genre}</Text>
             <FlatList
                 data={displayedBooks}
                 renderItem={renderBookItem}
