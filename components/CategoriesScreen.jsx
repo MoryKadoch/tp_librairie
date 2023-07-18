@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-native';
 import { getCategories } from '../models/data';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -19,16 +19,19 @@ const CategoriesScreen = ({ navigation }) => {
 
     const renderGridItem = (itemData) => {
         return (
-            <View style={{ ...styles.gridItem, backgroundColor: itemData.item.couleur }}>
-                <Text
-                    style={styles.title}
-                    onPress={() => {
-                        navigation.navigate('Category', { categoryId: itemData.item.id });
-                    }}
+            <TouchableOpacity 
+                style={{ ...styles.gridItem, backgroundColor: itemData.item.couleur }} 
+                onPress={() => {
+                    navigation.navigate('Category', { categoryId: itemData.item.id });
+                }}
+            >
+                <ImageBackground 
+                    source={{uri: 'https://source.unsplash.com/random/? ' + itemData.item.genre}}
+                    style={styles.backgroundImg}
                 >
-                    {itemData.item.genre}
-                </Text>
-            </View>
+                    <Text style={styles.title}>{itemData.item.genre}</Text>
+                </ImageBackground>
+            </TouchableOpacity>
         );
     };
 
@@ -46,17 +49,23 @@ const styles = StyleSheet.create({
         flex: 1,
         margin: 15,
         height: 150,
+        borderRadius: 10,
+        overflow: 'hidden',
+        elevation: 5,
+    },
+    backgroundImg: {
+        width: '100%',
+        height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 10,
-        elevation: 5,
-        padding: 15,
     },
     title: {
-        fontSize: 18,
+        fontSize: 20,
+        fontWeight: 'bold',
         textAlign: 'center',
-        textTransform: 'capitalize',
         color: 'white',
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        padding: 5,
     },
 });
 
